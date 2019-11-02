@@ -3,20 +3,32 @@ package lab.basic.Hibernate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "person")
 public class User {
 	@Id
-	@GeneratedValue
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "empId")
+	//@SequenceGenerator(name="empId",initialValue = 100, allocationSize = 2, sequenceName = "customId")
 	private int id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "country")
 	private String country;
+
+	public User() {
+
+	}
+
+	public User(String name, String country) {
+		this.name = name;
+		this.country = country;
+	}
 
 	public String getName() {
 		return name;
