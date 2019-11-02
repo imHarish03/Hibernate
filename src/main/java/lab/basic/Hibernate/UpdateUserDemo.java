@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class ReadUserDemo {
+public class UpdateUserDemo {
 
 	public static void main(String[] args) {
 		SessionFactory factory = new Configuration()
@@ -14,20 +14,24 @@ public class ReadUserDemo {
 				.configure("hibernate.cfg.xml").addAnnotatedClass(User.class).buildSessionFactory();
 
 		try {
+			int userId = 1;
 			Session session = factory.getCurrentSession();
 			// Start transaction
 			session.beginTransaction();
 
 			// Query User
-			System.out.println("**List of users**");
-			List<User> userList = session.createQuery("from User").list();
-			displayUsers(userList);
+			System.out.println("**Get Student with Id**");
+			User user = (User) session.get(User.class, userId);
+			System.out.println("Updating student...");
+			user.setName("Vinodh");
 
-			// Query user where user name like kar
-			System.out.println("**List of users like Kri**");
-			List<User> users = session.createQuery("from User u Where u.name LIKE 'Chri%' OR u.country='Karur'")
-					.list();
-			displayUsers(users);
+			session.getTransaction().commit();
+
+			/// New Code
+			session = factory.getCurrentSession();
+			session.beginTransaction();
+			System.out.println("Update country for all the users");
+			session.createQuery("Update User Set country='India'").executeUpdate();
 
 			session.getTransaction().commit();
 
@@ -35,13 +39,6 @@ public class ReadUserDemo {
 			System.out.println(e);
 		} finally {
 			factory.close();
-		}
-	}
-
-	static void displayUsers(List<User> userList) {
-		// Display the users
-		for (User user : userList) {
-			System.out.println(user);
 		}
 	}
 
