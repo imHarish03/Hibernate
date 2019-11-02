@@ -1,8 +1,9 @@
 package lab.basic.Hibernate;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class ReadUserDemo {
@@ -14,27 +15,17 @@ public class ReadUserDemo {
 
 		try {
 			Session session = factory.getCurrentSession();
-			// Create a User Object
-			User user = new User("Yogi", "Dindigul");
-
 			// Start transaction
-			Transaction tx = session.beginTransaction();
-
-			// Save the transaction
-			session.save(user);
-
-			// Commit Transaction
-			session.getTransaction().commit();
-
-			// Find out student Id
-			System.out.println("Saved User. Generated Id:" + user.getId());
-
-			// Now get a new session and start transaction
-			session = factory.getCurrentSession();
 			session.beginTransaction();
-			User getUser = (User) session.get(User.class, user.getId());
 
-			System.out.println("Saved User. Generated Id:" + getUser.getName());
+			// Query User
+			List<User> userList = session.createQuery("from User").list();
+
+			// Display the users
+			for (User user : userList) {
+				System.out.println(user);
+			}
+
 			session.getTransaction().commit();
 
 		} catch (Exception e) {

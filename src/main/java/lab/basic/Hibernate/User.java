@@ -14,7 +14,8 @@ public class User {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@SequenceGenerator(name="empId",initialValue = 100, allocationSize = 2, sequenceName = "customId")
+	// @SequenceGenerator(name="empId",initialValue = 100, allocationSize = 2,
+	// sequenceName = "customId")
 	private int id;
 	@Column(name = "name")
 	private String name;
@@ -52,6 +53,11 @@ public class User {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", country=" + country + "]";
 	}
 
 }
